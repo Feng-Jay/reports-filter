@@ -1,0 +1,4 @@
+log_file: /Users/ffengjay/Postgraduate/Prepare4Phd/reports-filter/logs/reports-filter.log
+log_level: debug
+sast: codeql
+results_file: /Users/ffengjay/Postgraduate/Prepare4Phd/reports-filter/results/sast_results.json

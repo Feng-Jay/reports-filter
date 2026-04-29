@@ -1,0 +1,9 @@
+2026-04-29T05:17:00.156202Z  INFO reports_filter: Application started
+2026-04-29T05:44:07.768966Z  INFO reports_filter: Application started
+2026-04-29T05:44:07.769937Z  INFO reports_filter: Using config file: "config.yaml"
+2026-04-29T05:46:09.318691Z  INFO reports_filter: src/main.rs:15: Application started
+2026-04-29T05:46:09.319330Z  INFO reports_filter: src/main.rs:18: Using config file: "config.yaml"
+2026-04-29T05:47:49.846543Z  INFO reports_filter: src/main.rs:18: Application started
+2026-04-29T05:47:49.847241Z  INFO reports_filter: src/main.rs:21: Using config file: "config.yaml"
+2026-04-29T05:47:49.847673Z  INFO reports_filter::utils::config: src/utils/config.rs:34: Config loaded successfully from config.yaml
+2026-04-29T05:47:49.847696Z DEBUG reports_filter: src/main.rs:24: Config: Config { log_level: "debug", log_file: "/Users/ffengjay/Postgraduate/Prepare4Phd/reports-filter/logs/reports-filter.log", sast: CODEQL, results_file: "/Users/ffengjay/Postgraduate/Prepare4Phd/reports-filter/results/sast_results.json" }
