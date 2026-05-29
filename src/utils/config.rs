@@ -1,6 +1,7 @@
 use serde_yml;
 use serde::{Serialize, Deserialize};
 
+use std::fmt;
 use std::path::PathBuf;
 use std::fs;
 
@@ -12,10 +13,27 @@ pub enum SAST {
     LLMDFA,
     IRIS,
     INFERROI,
-    CODEQL,
-    SEMGREP,
+    CODEQL, // done
+    SEMGREP, // done
     CSA,
-    SPOTBUGS
+    SPOTBUGS // done
+}
+
+impl fmt::Display for SAST {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+        let s = match self {
+            SAST::REPOAUDIT => "repoaudit",
+            SAST::KNIGHTER => "knighter",
+            SAST::LLMDFA => "llmdfa",
+            SAST::IRIS => "iris",
+            SAST::INFERROI => "inferroi",
+            SAST::CODEQL => "codeql",
+            SAST::SEMGREP => "semgrep",
+            SAST::CSA => "csa",
+            SAST::SPOTBUGS => "spotbugs",
+        };
+        write!(f, "{s}")
+    }
 }
 
 #[derive(Debug, Serialize, Deserialize)]
@@ -23,7 +41,10 @@ pub struct Config {
     pub log_level: String,
     pub log_file: PathBuf,
     pub sast: SAST,
+    pub vul: String,
+    pub sample_ratio: f64,
     pub results_file: PathBuf,
+    pub repos_dir: PathBuf,
 }
 
 impl Config {

@@ -1,13 +1,15 @@
-use serde_yml::with;
+use crate::utils::config::Config;
 use tracing_appender::{non_blocking::WorkerGuard, rolling};
 use tracing_subscriber::{fmt, layer::SubscriberExt, util::SubscriberInitExt, EnvFilter};
 
 
-pub fn init_logger() -> WorkerGuard {
-    let file_appender = rolling::never("logs", "app.log");
+pub fn init_logger(config: &Config) -> WorkerGuard {
+    let log_dir = config.log_file.parent().unwrap();
+    let log_file_name = config.log_file.file_name().unwrap();
+    let file_appender = rolling::never(log_dir, log_file_name);
     let (non_blocking, guard) = tracing_appender::non_blocking(file_appender);
 
-    let event_filter = EnvFilter::try_new("debug").unwrap_or_else(|_| EnvFilter::new("debug"));
+    let event_filter = EnvFilter::try_new(config.log_level.as_str()).unwrap_or_else(|_| EnvFilter::new("debug"));
 
     tracing_subscriber::registry()
         .with(event_filter)

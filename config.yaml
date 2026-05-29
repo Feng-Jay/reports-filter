@@ -1,4 +1,24 @@
-log_file: /Users/ffengjay/Postgraduate/Prepare4Phd/reports-filter/logs/reports-filter.log
+# sast: codeql
+# vul: CWE-401
+# log_level: debug
+# log_file: ./logs/reports-filter.log
+# sample_ratio: 0.3
+# results_file: /data/lifengjie/LLM4Security/results/codeql_real_world/ImageMagick-3bf1076d748a5ec40073685ce71ca9222cf0b00-CWE-401.csv
+# repos_dir: /data/lifengjie/LLM4Security/data/projects/ImageMagick
+
+
+# sast: semgrep
+# vul: CWE-401
+# log_level: debug
+# log_file: ./logs/reports-filter.log
+# sample_ratio: 0.3
+# results_file: /data/lifengjie/reports-filter/data/semgrep_real_world/ImageMagick_-3bf1076d748a5ec40073685ce71ca9222cf0b00-CWE-401.json
+# repos_dir: /data/lifengjie/LLM4Security/data/projects/ImageMagick
+
+sast: spotbugs
+vul: CWE-022
 log_level: debug
-sast: codeql
-results_file: /Users/ffengjay/Postgraduate/Prepare4Phd/reports-filter/results/sast_results.json
+log_file: ./logs/reports-filter.log
+sample_ratio: 0.3
+results_file: /data/lifengjie/reports-filter/data/spotbugs_real_world_major/DSpace-3b248012147da7cac7ac0fcd0b6b9ee0b07b508-CWE-022/DSpace_3b248012147da7cac7ac0fcd0b6b9ee0b07b5088_part0.xml
+repos_dir: /data/lifengjie/LLM4Security/data/java_projects/DSpace

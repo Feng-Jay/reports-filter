@@ -1,1 +1,5 @@
 /target
+/test*
+/logs
+.DS_Store
+.vscode
