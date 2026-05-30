@@ -7,6 +7,7 @@ use std::path::PathBuf;
 use reports_filter::codex::run_codex;
 use reports_filter::parse::parse_sast_reports;
 use reports_filter::utils::{
+    checkout_project,
     logging::init_logger,
     config::Config,
 };
@@ -27,6 +28,12 @@ fn main() {
     tracing::debug!("Config: {:?}", config);
     
     let _logger_guard = init_logger(&config);
+
+    let res = checkout_project(&config.repos_dir, &config.commit_id);
+    if let Err(e) = res {
+        tracing::error!("Failed to checkout project: {}", e);
+        return;
+    }
 
     let reports = parse_sast_reports(&config.results_file, &config.sast, &config.vul);
     if let Ok(data) = reports {

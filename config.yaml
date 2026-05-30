@@ -22,3 +22,4 @@ log_file: ./logs/reports-filter.log
 sample_ratio: 0.3
 results_file: /data/lifengjie/reports-filter/data/spotbugs_real_world_major/DSpace-3b248012147da7cac7ac0fcd0b6b9ee0b07b508-CWE-022/DSpace_3b248012147da7cac7ac0fcd0b6b9ee0b07b5088_part0.xml
 repos_dir: /data/lifengjie/LLM4Security/data/java_projects/DSpace
+commit_id: 3b248012147da7cac7ac0fcd0b6b9ee0b07b5088

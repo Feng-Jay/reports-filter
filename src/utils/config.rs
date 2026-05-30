@@ -8,11 +8,11 @@ use std::fs;
 #[derive(Debug, Serialize, Deserialize)]
 #[serde(rename_all = "lowercase")]
 pub enum SAST {
-    REPOAUDIT,
+    REPOAUDIT, // done
     KNIGHTER,
-    LLMDFA,
-    IRIS,
-    INFERROI,
+    LLMDFA, // done
+    IRIS, // done
+    INFERROI, // done
     CODEQL, // done
     SEMGREP, // done
     CSA,
@@ -45,6 +45,7 @@ pub struct Config {
     pub sample_ratio: f64,
     pub results_file: PathBuf,
     pub repos_dir: PathBuf,
+    pub commit_id: String
 }
 
 impl Config {

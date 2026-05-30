@@ -1,8 +1,8 @@
 use csv;
 use roxmltree::Document;
 
+use std::string::String;
 use std::error::Error;
-use std::io::SeekFrom::End;
 use std::ops::Index;
 use std::path::Path;
 use crate::utils::config::SAST;
@@ -149,7 +149,33 @@ fn parse_spotbugs_report(path: &Path) -> Result<Vec<Vec<String>>, Box<dyn Error>
 }
 
 fn parse_repoaudit_report(path: &Path) -> Result<Vec<Vec<String>>, Box<dyn Error>> {
-    unimplemented!("RepoAudit report parsing is not implemented yet");
+    let json_str = std::fs::read_to_string(path)?;
+    let json_value: serde_json::Value = serde_json::from_str(&json_str)?;
+
+    let mut ret = Vec::new();
+
+    if let Some(vul_reports) = json_value.as_object(){
+        for key in vul_reports.keys() {
+            if let Some(vul_report) = vul_reports.get(key) {
+                let vul_type = vul_report.get("bug_type").and_then(|v| v.as_str()).unwrap_or("");
+                let buggy_value = vul_report.get("buggy_value").and_then(|v| v.as_str()).unwrap_or("");
+                let relevant_values = vul_report.get("relevant_functions").and_then(|v| v.as_array()).map(Vec::as_slice).unwrap_or(&[]);
+                let relevant_files = relevant_values.get(0).and_then(|v|v.as_array()).map(Vec::as_slice).unwrap_or(&[]);
+                let relevant_funcs = relevant_values.get(1).and_then(|v|v.as_array()).map(Vec::as_slice).unwrap_or(&[]);
+                let mut relevant_info = String::new();
+                for (i, file) in relevant_files.iter().enumerate() {
+                    let file = file.as_str().unwrap_or("");
+                    let file = file.split("/data/projects/").last().unwrap_or("").split("/").skip(1).collect::<Vec<&str>>().join("/");
+                    let func = relevant_funcs.get(i).and_then(|v| v.as_str()).unwrap_or("");
+                    relevant_info.push_str(&format!("File path: {}, Func: {}\n", file.as_str(), func));
+                }
+
+                let explaination = vul_report.get("explanation").and_then(|v| v.as_str()).unwrap_or("");
+                ret.push(vec![format!("Reported Bug Type: {}", vul_type), format!("Buggy Value: {}", buggy_value), format!("Relevant Code:\n{}", relevant_info), format!("Explaination: {}", explaination)]);
+            }
+        }
+    }
+    return Ok(ret);
 }
 
 fn parse_llmdfa_report(path: &Path) -> Result<Vec<Vec<String>>, Box<dyn Error>> {
@@ -157,7 +183,49 @@ fn parse_llmdfa_report(path: &Path) -> Result<Vec<Vec<String>>, Box<dyn Error>> 
 }
 
 fn parse_inferroi_report(path: &Path) -> Result<Vec<Vec<String>>, Box<dyn Error>> {
-    unimplemented!("InferROI report parsing is not implemented yet");
+    // the path feed to inferroi is a dictory, need iterate it.
+    let mut ret = Vec::new();
+    for json_file in path.read_dir()? {
+        let json_file = json_file?;
+        if json_file.path().extension().and_then(|s| s.to_str()) == Some("json") {
+            let json_str = std::fs::read_to_string(json_file.path())?;
+            let json_array = serde_json::from_str::<serde_json::Value>(&json_str)?;
+            let json_array = json_array.as_array().map(Vec::as_slice).unwrap_or(&[]);
+            for vul_report in json_array {
+                let method_name = vul_report.get("method_name").and_then(|v| v.as_str()).unwrap_or("");
+                let source_code = vul_report.get("source").and_then(|v| v.as_str()).unwrap_or("");
+                let intensions = vul_report.get("intensions").and_then(|v| v.as_array()).map(Vec::as_slice).unwrap_or(&[]);
+                // intensions
+                let mut intensions_str = String::new();
+                for intension in intensions {
+                    if let Some(intension) = intension.as_array() {
+                        intensions_str.push_str(&format!("Line: {}, {} resource, resource: {}, resource type: {}\n", intension[0].as_str().unwrap_or(""), intension[1].as_str().unwrap_or(""), intension[2].as_str().unwrap_or(""), intension[3].as_str().unwrap_or("")));
+                    }
+                }
+                // leaks path
+                let mut leaks_str = String::new();
+                if let Some(leaks) = vul_report.get("leaks").and_then(|v| v.as_object()) {
+                    for (leak_value, info) in leaks.iter() {
+                        let leak_type = info.get("type").and_then(|v| v.as_str()).unwrap_or("");
+                        let leak_path = info
+                            .get("path")
+                            .and_then(|v| v.as_array())
+                            .map(|path| {
+                                path.iter()
+                                    .map(|v| v.as_str().unwrap_or(""))
+                                    .collect::<Vec<&str>>()
+                                    .join("\n")
+                            })
+                            .unwrap_or_default();
+                        let leak_info = format!("Leak Value: {}, Leak Type: {}, Leak Path:\n{}", leak_value, leak_type, leak_path);
+                        leaks_str.push_str(&leak_info);
+                    }
+                }
+                ret.push(vec![format!("Method Name: {}", method_name), format!("Source Code:\n{}", source_code), format!("Intensions:\n{}", intensions_str), format!("Leaks:\n{}", leaks_str)]);
+            }
+        }
+    }
+    return Ok(ret);
 }
 
 // Each bug report is formatted as a list of strings, where each string is a key-value pair in the format "key: value".
@@ -193,6 +261,46 @@ pub fn parse_sast_reports(reports_path: &Path, sast: &SAST, vul: &str) -> Result
                 return Err(format!("Failed to parse SpotBugs XML report"));
             }
         },
+        SAST::REPOAUDIT => {
+            let rows = parse_repoaudit_report(reports_path);
+            if let Ok(data) = rows {
+                tracing::info!("Successfully parsed RepoAudit JSON report with {} vulnerability reports", data.len());
+                return Ok(data);
+            } else {
+                tracing::error!("Failed to parse RepoAudit JSON report {:?}: {:?}", reports_path, rows.err());
+                return Err(format!("Failed to parse RepoAudit JSON report"));
+            }
+        },
+        SAST::INFERROI => {
+            let rows = parse_inferroi_report(reports_path);
+            if let Ok(data) = rows {
+                tracing::info!("Successfully parsed InferROI report with {} vulnerability reports", data.len());
+                return Ok(data);
+            } else {
+                tracing::error!("Failed to parse InferROI report {:?}: {:?}", reports_path, rows.err());
+                return Err(format!("Failed to parse InferROI report"));
+            }
+        },
+        SAST::LLMDFA => {
+            let rows = parse_llmdfa_report(reports_path);
+            if let Ok(data) = rows {
+                tracing::info!("Successfully parsed LLMDFA report with {} vulnerability reports", data.len());
+                return Ok(data);
+            } else {
+                tracing::error!("Failed to parse LLMDFA report {:?}: {:?}", reports_path, rows.err());
+                return Err(format!("Failed to parse LLMDFA report"));
+            }
+        },
+        SAST::IRIS => {
+            let rows = parse_sarif_report(reports_path);
+            if let Ok(data) = rows {
+                tracing::info!("Successfully parsed IRIS SARIF report with {} vulnerability reports", data.len());
+                return Ok(data);
+            } else {
+                tracing::error!("Failed to parse IRIS SARIF report {:?}: {:?}", reports_path, rows.err());
+                return Err(format!("Failed to parse IRIS SARIF report"));
+            }
+        }
         _ => {
             unimplemented!("SAST tool {:?} is not supported yet", sast);
         }
