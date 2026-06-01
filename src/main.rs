@@ -2,6 +2,8 @@ use clap::Parser;
 use rand::seq::SliceRandom;
 use rand::{Rng, thread_rng};
 
+use indicatif::ProgressIterator;
+
 use std::collections::HashMap;
 use std::path::PathBuf;
 use reports_filter::codex::run_codex;
@@ -38,22 +40,22 @@ fn main() {
     let reports = parse_sast_reports(&config.results_file, &config.sast, &config.vul);
     if let Ok(data) = reports {
         let output_file = config.results_file.with_file_name(format!("validated_{}.json", config.results_file.file_stem().unwrap().to_str().unwrap()));
-        let mut results = HashMap::new();
+        let mut results: HashMap<String, String>= HashMap::new();
         tracing::info!("Successfully parsed SAST reports, total {} entries", data.len());
         tracing::info!("Output file will be: {:?}", output_file);
         let indexes = (0..data.len()).collect::<Vec<usize>>();
         let mut rng = thread_rng();
         // sample at most 100 reports
-        let sample_size = ((data.len() as f64 * config.sample_ratio).ceil() as usize).min(50); 
+        let sample_size = ((data.len() as f64 * config.sample_ratio).ceil() as usize).min(300); 
         let sample_indexes = indexes.choose_multiple(&mut rng, sample_size);
         tracing::info!("Randomly sampled {} reports for Codex analysis", sample_size);
-        for idx in sample_indexes {
+        for idx in sample_indexes.into_iter().progress() {
             let report = &data[*idx];
             let report_str = report.join("\n");
             tracing::debug!("Parsed SAST report:\n{}", report_str);
             // input to wait
-            std::io::stdin().read_line(&mut String::new()).unwrap();
-            println!("Running Codex for report #{}...", idx);
+            // std::io::stdin().read_line(&mut String::new()).unwrap();
+            tracing::info!("Running Codex for report #{}...", idx);
             let res = run_codex(config.sast.to_string().as_str(), 
                 &config.vul, 
                 &report_str, 

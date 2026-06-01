@@ -15,11 +15,21 @@
 # results_file: /data/lifengjie/reports-filter/data/semgrep_real_world/ImageMagick_-3bf1076d748a5ec40073685ce71ca9222cf0b00-CWE-401.json
 # repos_dir: /data/lifengjie/LLM4Security/data/projects/ImageMagick
 
-sast: spotbugs
-vul: CWE-022
+# sast: spotbugs
+# vul: CWE-022
+# log_level: debug
+# log_file: ./logs/reports-filter.log
+# sample_ratio: 0.3
+# results_file: /data/lifengjie/reports-filter/data/spotbugs_real_world_major/DSpace-3b248012147da7cac7ac0fcd0b6b9ee0b07b508-CWE-022/DSpace_3b248012147da7cac7ac0fcd0b6b9ee0b07b5088_part0.xml
+# repos_dir: /data/lifengjie/LLM4Security/data/java_projects/DSpace
+# commit_id: 3b248012147da7cac7ac0fcd0b6b9ee0b07b5088
+
+
+sast: repoaudit
+vul: CWE-476
 log_level: debug
-log_file: ./logs/reports-filter.log
-sample_ratio: 0.3
-results_file: /data/lifengjie/reports-filter/data/spotbugs_real_world_major/DSpace-3b248012147da7cac7ac0fcd0b6b9ee0b07b508-CWE-022/DSpace_3b248012147da7cac7ac0fcd0b6b9ee0b07b5088_part0.xml
-repos_dir: /data/lifengjie/LLM4Security/data/java_projects/DSpace
-commit_id: 3b248012147da7cac7ac0fcd0b6b9ee0b07b5088
+log_file: ./logs/repoaudit-NPD-bitlbee.log
+sample_ratio: 1.0
+results_file: /data/lifengjie/reports-filter/data/dfbscan_real_world/gpt-5.4/NPD/bitlbee-8af06ca5362445ff6379aca028b79c607ed77f9/2026-05-19-12-23-12-0/detect_info.json
+repos_dir: /data/lifengjie/sec/data/csa_real_world_projects/bitlbee
+commit_id: 8af06ca5362445ff6379aca028b79c607ed77f90
