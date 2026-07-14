@@ -16,7 +16,9 @@ pub enum SAST {
     CODEQL, // done
     SEMGREP, // done
     CSA,
-    SPOTBUGS // done
+    SPOTBUGS, // done
+    Codex,
+    ClaudeCode
 }
 
 impl fmt::Display for SAST {
@@ -31,6 +33,8 @@ impl fmt::Display for SAST {
             SAST::SEMGREP => "semgrep",
             SAST::CSA => "csa",
             SAST::SPOTBUGS => "spotbugs",
+            SAST::Codex => "codex",
+            SAST::ClaudeCode => "claudecode"
         };
         write!(f, "{s}")
     }
@@ -45,7 +49,7 @@ pub struct Config {
     pub sample_ratio: f64,
     pub results_file: PathBuf,
     pub repos_dir: PathBuf,
-    pub commit_id: String
+    pub commit_id: Option<String>
 }
 
 impl Config {

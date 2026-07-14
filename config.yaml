@@ -1,35 +1,164 @@
+# sast: repoaudit
+# vul: CWE-476
+# log_level: info
+# log_file: ./logs/repoaudit-NPD-bitlbee.log
+# sample_ratio: 1.0
+# results_file: /data/lifengjie/reports-filter/data/dfbscan/claude-3.5/NPD/bitlbee-8af06ca5362445ff6379aca028b79c607ed77f9/2025-10-14-20-07-03-0/detect_info.json
+# repos_dir: /data/lifengjie/sec/data/csa_real_world_projects/bitlbee
+
+# sast: repoaudit
+# vul: CWE-476
+# log_level: info
+# log_file: ./logs/repoaudit-new-NPD-bitlbee.log
+# sample_ratio: 1.0
+# results_file: /data/lifengjie/reports-filter/data/dfbscan_real_world/gpt-5.4/NPD/bitlbee-8af06ca5362445ff6379aca028b79c607ed77f9/2026-05-19-12-23-12-0/detect_info.json
+# repos_dir: /data/lifengjie/sec/data/csa_real_world_projects/bitlbee
+# commit_id: 8af06ca5362445ff6379aca028b79c607ed77f90
+
+# sast: knighter
+# vul: CWE-416
+# log_level: info
+# log_file: ./logs/knighter-new-UAF-linux-drivers-net-2.log
+# sample_ratio: 1.0
+# results_file: /data/lifengjie/reports-filter/data/knighter_real_world_gpt54/linux-6093a688a07da07808f0122f9aa2a3eed250d85-CWE-416-drivers/net/6093a688a07da07808f0122f9aa2a3eed250d853/2026-05-15-132317-1182368-1
+# repos_dir: /data/lifengjie/sec/data/csa_real_world_projects/linux
+# commit_id: 6093a688a07da07808f0122f9aa2a3eed250d853
+
+# sast: knighter
+# vul: CWE-416
+# log_level: info
+# log_file: ./logs/knighter-old-UAF-linux-1.log
+# sample_ratio: 1.0
+# results_file: /data/lifengjie/reports-filter/data/linux-6093a688a07da07808f0122f9aa2a3eed250d85-CWE-416-net/0336f8ffece62f882ab3012820965a786a983f70/2025-11-09-140234-3439053-1/
+# repos_dir: /data/lifengjie/sec/data/csa_real_world_projects/linux
+# commit_id: 6093a688a07da07808f0122f9aa2a3eed250d853
+
 # sast: codeql
 # vul: CWE-401
-# log_level: debug
-# log_file: ./logs/reports-filter.log
-# sample_ratio: 0.3
-# results_file: /data/lifengjie/LLM4Security/results/codeql_real_world/ImageMagick-3bf1076d748a5ec40073685ce71ca9222cf0b00-CWE-401.csv
-# repos_dir: /data/lifengjie/LLM4Security/data/projects/ImageMagick
-
+# log_level: info 
+# log_file: ./logs/codeql-CWE-401-ImageMagick.log
+# sample_ratio: 1.0
+# results_file: /data/lifengjie/reports-filter/data/codeql_real_world/ImageMagick-3bf1076d748a5ec40073685ce71ca9222cf0b00-CWE-401.csv
+# repos_dir: /data/lifengjie/sec/data/csa_real_world_projects/ImageMagick
+# commit_id: 8af06ca5362445ff6379aca028b79c607ed77f90
 
 # sast: semgrep
-# vul: CWE-401
-# log_level: debug
-# log_file: ./logs/reports-filter.log
-# sample_ratio: 0.3
-# results_file: /data/lifengjie/reports-filter/data/semgrep_real_world/ImageMagick_-3bf1076d748a5ec40073685ce71ca9222cf0b00-CWE-401.json
-# repos_dir: /data/lifengjie/LLM4Security/data/projects/ImageMagick
+# vul: CWE-476
+# log_level: info
+# log_file: ./logs/semgrep-cwe-476-gpac.log
+# sample_ratio: 1.0
+# results_file: /data/lifengjie/reports-filter/data/semgrep_real_world/gpac_-c6a72c35aadadd9755d177c5ffc51b3e2b5f926-CWE-476.json
+# repos_dir: /data/lifengjie/sec/data/csa_real_world_projects/gpac
+# commit_id: c6a72c35aadadd9755d177c5ffc51b3e2b5f9268
+
+sast: csa
+vul: CWE-416
+log_level: info
+log_file: ./logs/csa-UAF-linux.log
+sample_ratio: 1.0
+results_file: /data/lifengjie/reports-filter/data/cas_real_world/linux-6093a688a07da07808f0122f9aa2a3eed250d85-CWE-416/6093a688a07da07808f0122f9aa2a3eed250d853/2026-05-15-095732-3148331-1/
+repos_dir: /data/lifengjie/sec/data/csa_real_world_projects/linux
+# commit_id: 6093a688a07da07808f0122f9aa2a3eed250d853
+
+# sast: codeql
+# vul: CWE-772
+# log_level: info 
+# log_file: ./logs/codeql-CWE-772-jsoup.log
+# sample_ratio: 1.0
+# results_file: /data/lifengjie/reports-filter/data/codeql_real_world/jsoup-acafbcf3cb71ea0a04188c8f6257e3d395fa7c3-CWE-400.csv
+# repos_dir: /data/lifengjie/LLM4Security/data/java_projects/jsoup
+# commit_id: acafbcf3cb71ea0a04188c8f6257e3d395fa7c3
+
+# sast: semgrep
+# vul: CWE-079
+# log_level: info
+# log_file: ./logs/semgrep-cwe-79-jenkins.log
+# sample_ratio: 1.0
+# results_file: /data/lifengjie/reports-filter/data/semgrep_real_world/jenkins-69d5a542391a0dc5c1b2ed609447bc863e7e892-CWE-079.json
+# repos_dir: /data/lifengjie/LLM4Security/data/java_projects/jenkins
+# commit_id: 69d5a542391a0dc5c1b2ed609447bc863e7e892
 
 # sast: spotbugs
-# vul: CWE-022
-# log_level: debug
-# log_file: ./logs/reports-filter.log
-# sample_ratio: 0.3
-# results_file: /data/lifengjie/reports-filter/data/spotbugs_real_world_major/DSpace-3b248012147da7cac7ac0fcd0b6b9ee0b07b508-CWE-022/DSpace_3b248012147da7cac7ac0fcd0b6b9ee0b07b5088_part0.xml
-# repos_dir: /data/lifengjie/LLM4Security/data/java_projects/DSpace
-# commit_id: 3b248012147da7cac7ac0fcd0b6b9ee0b07b5088
+# vul: CWE-079
+# log_level: info
+# log_file: ./logs/spotbugs-cwe-79-xwiki-platform.log
+# sample_ratio: 1.0
+# results_file: /data/lifengjie/reports-filter/data/spotbugs_real_world_major/xwiki-platform-fc734981c142b35c0ce97d0af7d29c904794ba4-CWE-079/xwiki-platform_fc734981c142b35c0ce97d0af7d29c904794ba46_part0.xml
+# repos_dir: /data/lifengjie/LLM4Security/data/java_projects/xwiki-platform
+# commit_id: fc734981c142b35c0ce97d0af7d29c904794ba46
 
 
-sast: repoaudit
-vul: CWE-476
-log_level: debug
-log_file: ./logs/repoaudit-NPD-bitlbee.log
-sample_ratio: 1.0
-results_file: /data/lifengjie/reports-filter/data/dfbscan_real_world/gpt-5.4/NPD/bitlbee-8af06ca5362445ff6379aca028b79c607ed77f9/2026-05-19-12-23-12-0/detect_info.json
-repos_dir: /data/lifengjie/sec/data/csa_real_world_projects/bitlbee
-commit_id: 8af06ca5362445ff6379aca028b79c607ed77f90
+# old
+# sast: iris
+# vul: CWE-094
+# log_level: info
+# log_file: ./logs/iris-old-CWE94-cron-utils.log
+# sample_ratio: 1.0
+# results_file: /data/lifengjie/reports-filter/data/output/jmrozanec__cron-utils_CVE-2035-11122_1.1/expr/cwe-094wLLM-posthoc-filter/results.json
+# repos_dir: /data/lifengjie/LLM4Security/data/cc_java_projects/cron-utils
+# commit_id: bac6e866caf5f53d695a9513fc1b938b8064eaeb
+
+# sast: iris
+# vul: CWE-094
+# log_level: info
+# log_file: ./logs/iris-new-CWE94-activemq.log
+# sample_ratio: 1.0
+# results_file: /data/lifengjie/reports-filter/data/output-major-real-world/apache__activemq_CVE-2035-11121_1.1/expr/cwe-094wLLM-posthoc-filter/results.json
+# repos_dir: /data/lifengjie/LLM4Security/data/cc_java_projects/activemq
+# commit_id: 56ea235e6e481f7408f09101dec7ae77edb40ed1
+
+
+# sast: inferroi
+# vul: CWE-772
+# log_level: info
+# log_file: ./logs/inferroi-new-CWE772-sql2o.log
+# sample_ratio: 1.0
+# results_file: /data/lifengjie/reports-filter/data/inferroi_gpt54_real_world/sql2o
+# repos_dir: /data/lifengjie/LLM4Security/data/cc_java_projects/sql2o
+# commit_id: acafbcf3cb71ea0a04188c8f6257e3d395fa7c36
+
+# sast: codex
+# vul: CWE-476
+# log_level: info
+# log_file: ./logs/codex-NPD-bitlbee.log
+# sample_ratio: 1.0
+# results_file: /data/lifengjie/reports-filter/data/codex_real_world/bitlbee.md
+# repos_dir: /data/lifengjie/sec/data/csa_real_world_projects/bitlbee
+# commit_id: 6093a688a07da07808f0122f9aa2a3eed250d853
+
+# sast: codex
+# vul: CWE-772
+# log_level: info
+# log_file: ./logs/codex-CWE-772-jsoup.log
+# sample_ratio: 1.0
+# results_file: /data/lifengjie/reports-filter/data/codex_java_real_world/jsoup.md
+# repos_dir: /data/lifengjie/LLM4Security/data/cc_java_projects/jsoup
+# commit_id: acafbcf3cb71ea0a04188c8f6257e3d395fa7c36
+
+# sast: claudecode
+# vul: CWE-476
+# log_level: info
+# log_file: ./logs/claudecode-NPD-bitlbee.log
+# sample_ratio: 1.0
+# results_file: /data/lifengjie/reports-filter/data/claudecode_real_world/bitlbee.md
+# repos_dir: /data/lifengjie/sec/data/csa_real_world_projects/bitlbee
+# commit_id: 8af06ca5362445ff6379aca028b79c607ed77f90
+
+# sast: claudecode
+# vul: CWE-772
+# log_level: info
+# log_file: ./logs/claudecode-CWE-772-jsoup.log
+# sample_ratio: 1.0
+# results_file: /data/lifengjie/reports-filter/data/claudecode_java_real_world/jsoup.md
+# repos_dir: /data/lifengjie/LLM4Security/data/cc_java_projects/jsoup
+# commit_id: acafbcf3cb71ea0a04188c8f6257e3d395fa7c36
+
+# sast: llmdfa
+# vul: CWE-079
+# log_level: info
+# log_file: ./logs/llmdfa-CWE79-keycloak.log
+# sample_ratio: 1.0
+# results_file: /data/lifengjie/reports-filter/data/llmdfa_new/keycloak__keycloak_CVE-2035-11119_1.1_reports.json
+# repos_dir: /data/lifengjie/LLM4Security/data/cc_java_projects/keycloak
+# commit_id: 4f55b9b6bd6dadfdd04cfd09eb532dfdd26d5607
+
